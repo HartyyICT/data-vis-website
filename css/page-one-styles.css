@@ -1,0 +1,107 @@
+/* Basis layout */
+.page-one-content {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    color: #fff;
+}
+
+/* De boslagen */
+.forest {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, #0a2e1f, #2f5847);
+    overflow: hidden;
+}
+
+/* Achtergrondlaag (lichte bomen op afstand) */
+.layer-back {
+    position: absolute;
+    bottom: 2rem;
+    width: 200%;
+    height: 100%;
+    background: url("/img/Tree.svg") repeat-x;
+    background-size: contain;
+    animation: moveBack 60s linear infinite;
+    opacity: 0.5;
+    filter: brightness(1.4) saturate(0.8);
+}
+
+/* Middellaag (donkerder bomen) */
+.layer-mid {
+    position: absolute;
+    bottom: 1;
+    width: 200%;
+    height: 100%;
+    background: url("/img/Tree.svg") repeat-x;
+    background-size: contain;
+    animation: moveMid 40s linear infinite;
+    opacity: 0.6;
+    filter: brightness(1.1);
+}
+
+/* Voorgrondlaag (dichtbij bladeren en struiken) */
+.layer-front {
+    position: absolute;
+    bottom: -1rem;
+    width: 200%;
+    height: 100%;
+    background:
+        url("/img/Tree.svg") repeat-x,
+        url("/img/Tree.svg") repeat-x,
+        url("/img/Tree.svg") repeat-x;
+    background-size: contain, 20%, 20%; /* elk iets anders */
+    background-position-y: bottom, 90%, 80%;
+    opacity: 0.9;
+}
+
+/* Bosjeslaag (dichtbij en laag aan de grond) */
+.layer-bush {
+    position: absolute;
+    bottom: -2rem; /* iets lager dan de bomen zodat het op de voorgrond ligt */
+    width: 200%;
+    height: 40%; /* minder hoog dan de bomen */
+    background: url("/img/bush.svg") repeat-x;
+    background-size: 5%; 
+    background-position-y: bottom;
+    animation: moveFront 15s linear infinite; /* beweegt iets sneller dan bomen */
+    opacity: 0.95;
+    z-index: 5; /* boven de bomen, onder de titel */
+}
+
+
+/* Titeltekst in het midden */
+.title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+}
+
+.title h1 {
+    font-size: 3rem;
+    margin: 0;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+}
+
+.title p {
+    font-size: 1.3rem;
+    opacity: 0.9;
+}
+
+/* Beweging van de lagen voor een zacht parallax-effect */
+@keyframes moveBack {
+    from { transform: translateX(10); }
+    to { transform: translateX(-10%); }
+}
+
+@keyframes moveMid {
+    from { transform: translateX(20); }
+    to { transform: translateX(5%); }
+}
+
+

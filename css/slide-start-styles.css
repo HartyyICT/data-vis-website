@@ -1,0 +1,40 @@
+.slide-start-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
+    color: white;
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+    overflow: hidden;
+}
+
+.intro-container h1 {
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(255,255,255,0.3);
+}
+
+.intro-container p {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: #b0c4de;
+    margin-bottom: 2rem;
+}
+
+.scroll-hint {
+    display: block;
+    font-size: 1rem;
+    opacity: 0.8;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+/* Klein animatie-effect voor de hint */
+@keyframes pulse {
+    0%, 100% { opacity: 0.3; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(5px); }
+}
