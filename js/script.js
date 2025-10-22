@@ -5,6 +5,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const compareView = document.getElementById("compare-view");
   const track = document.getElementById("compare-track");
 
+  // Mapping van Nederlandse landnamen naar Engelse keys in de JSON
+  const countryKey = {
+    "nederland": "netherlands",
+    "brazilie": "brazil",
+    "australie": "australia",
+    "verenigde-staten": "united-states",
+    "zweden": "sweden",
+    "india": "india"
+  };
+
   // Hier is de vergelijk functie
   compareBtn.addEventListener("click", () => {
     const c1 = document.getElementById("country1").value;
@@ -25,12 +35,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Beide landen op elkaar zetten
     track.innerHTML = `
-      <img src="/img/${c1}.svg" alt="${c1}" class="country-img" />
-      <img src="/img/${c2}.svg" alt="${c2}" class="country-img" />
+      <img src="/img/${c1}.svg" alt="${c1}" class="country-img" id="img1" />
+      <img src="/img/${c2}.svg" alt="${c2}" class="country-img" id="img2" />
     `;
 
     // reset scrollpositie
     compareView.scrollTo({ left: 0 });
+
+    // JSON-bestand laden
+    fetch("/data/esg-selected-countries.json")
+      .then((r) => r.json())
+      .then((data) => {
+        console.log("✅ ESG-data geladen:", data);
+
+        // Mapping gebruiken voor correcte key in JSON
+        const key1 = countryKey[c1];
+        const key2 = countryKey[c2];
+
+        // Voor nu toon data in console voor debugging
+        console.log(`Data voor ${c1}:`, data[key1]);
+        console.log(`Data voor ${c2}:`, data[key2]);
+
+        // later hover-interacties toevoegen:
+        // Bijvoorbeeld: hover op land toon specifieke waarde
+        const img1 = document.getElementById("img1");
+        const img2 = document.getElementById("img2");
+
+        // Wacht even tot DOM echt geladen is
+        requestAnimationFrame(() => {
+          if (!img1 || !img2) {
+            console.error("Afbeeldingen niet gevonden, kan geen eventlistener toevoegen.");
+            return;
+          }
+
+          img1.addEventListener("mousemove", () => {
+            const value = data[key1]["Life expectancy at birth, total (years)"]["2020"];
+            console.log(`${c1} - Life expectancy 2020:`, value);
+          });
+
+          img2.addEventListener("mousemove", () => {
+            const value = data[key2]["Life expectancy at birth, total (years)"]["2020"];
+            console.log(`${c2} - Life expectancy 2020:`, value);
+          });
+        });
+      })
+      .catch((err) => console.error("Fout bij laden van JSON:", err));
 
     // horizontaal scrollen inschakelen met muiswiel
     enableHorizontalScroll(compareView);
