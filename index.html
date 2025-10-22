@@ -1,28 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESG Project</title>
-
-    <!-- Hoofd CSS -->
-    <link rel="stylesheet" href="/css/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ESG Project</title>
+  <link rel="stylesheet" href="/css/styles.css" />
 </head>
 <body>
-    <div class="outer-wrapper">
-        <div class="wrapper">
-            <!-- Dit is de home/start pagina -->
-            <div class="slide zero" data-slide="welcome"></div>
-            <!-- Dit is de home/start pagina -->
-            <div class="slide one"></div>
-            <div class="slide two"></div>
-            <div class="slide three"></div>
-            <div class="slide four"></div>
-            <div class="slide five"></div>
-        </div>
+  <div class="home-screen">
+    <h1>Vergelijk twee landen</h1>
+
+    <div class="selectors">
+      <div class="selector">
+        <label for="country1">Land 1</label>
+        <select id="country1">
+          <option value="">Kies...</option>
+          <option value="zweden">Zweden</option>
+          <option value="india">India</option>
+          <option value="australie">Australië</option>
+          <option value="verenigde-staten">Verenigde Staten</option>
+          <option value="brazilie">Brazilië</option>
+        </select>
+      </div>
+
+      <div class="selector">
+        <label for="country2">Land 2</label>
+        <select id="country2">
+          <option value="">Kies...</option>
+          <option value="zweden">Zweden</option>
+          <option value="india">India</option>
+          <option value="australie">Australië</option>
+          <option value="verenigde-staten">Verenigde Staten</option>
+          <option value="brazilie">Brazilië</option>
+        </select>
+      </div>
     </div>
 
-    <!-- Script om page-one.html te laden -->
-    <script src="/js/script.js"></script>
+    <button id="compare-btn">Vergelijk</button>
+  </div>
+
+  <div class="compare-view" id="compare-view" style="display:none;">
+    <button class="back-btn" id="back-btn">← Terug</button>
+    <div class="compare-track" id="compare-track"></div>
+  </div>
+
+  <script src="/js/script.js"></script>
 </body>
 </html>
