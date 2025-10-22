@@ -1,4 +1,3 @@
-import { esgData } from './data/data.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     const slidesToLoad = [
