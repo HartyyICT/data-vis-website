@@ -38,6 +38,8 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="/img/${c1}.svg" alt="${c1}" class="country-img" id="img1" />
       <img src="/img/${c2}.svg" alt="${c2}" class="country-img" id="img2" />
     `;
+    // ✨ hier bomen toevoegen (bijv. 25 stuks)
+      spawnRandomTrees(25);
 
     // reset scrollpositie
     compareView.scrollTo({ left: 0 });
@@ -108,3 +110,4 @@ function enableHorizontalScroll(element) {
     { passive: false }
   );
 }
+

@@ -104,3 +104,18 @@ select {
 .compare-view::-webkit-scrollbar {
   display: none;             /* Chrome, Safari, Opera */
 }
+
+/* Track is de ‘canvas’ waar we bomen op positioneren */
+.compare-track {
+  position: relative; /* <- belangrijk voor absolute bomen */
+}
+
+/* Stijl van de boom-afbeeldingen */
+.tree {
+  position: absolute;
+  z-index: 5;           /* boven de landen */
+  width: clamp(24px, 3vh, 48px);
+  height: auto;
+  pointer-events: none; /* nooit hover/click blokkeren */
+  user-select: none;
+}
