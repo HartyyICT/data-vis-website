@@ -41,6 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const forest1 = data[key1]["Forest area (% of land area)"]["2021"];
         const forest2 = data[key2]["Forest area (% of land area)"]["2021"];
 
+        spawnAnimals(3, "top", c1, data[key1]);
+        spawnAnimals(3, "bottom", c2, data[key2]);
+
         const count1 = Math.round((forest1 / 100) * 100);
         const count2 = Math.round((forest2 / 100) * 100);
 

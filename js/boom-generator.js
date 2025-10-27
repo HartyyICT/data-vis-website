@@ -63,7 +63,7 @@ function spawnRandomTrees(count, position, countryName, countryData) {
 
       // popup
       tree.addEventListener("click", (e) => {
-        const forestArea = countryData["Forest area (% of land area)"]["2020"];
+        const forestArea = countryData["Forest area (% of land area)"]["2021"];
         const percentage = forestArea.toFixed(2);
         let storyText = "";
 
