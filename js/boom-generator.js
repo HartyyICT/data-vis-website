@@ -1,55 +1,47 @@
 /**
- * Plaatst willekeurige bomen (boom.svg) op beide landen binnen het groene gebied.
- * @param {number} count - aantal bomen per land
+ * Plaatst willekeurige bomen (boom.svg) op een land binnen het groene gebied
+ * én binnen een horizontale zone.
+ * @param {number} count
+ * @param {"top"|"bottom"} position
  */
-function spawnRandomTrees(count) {
+function spawnRandomTrees(count, position) {
   const track = document.getElementById("compare-track");
   const compareView = document.getElementById("compare-view");
   const img1 = document.getElementById("img1");
-  const img2 = document.getElementById("img2");
-  if (!track || !compareView || !img1 || !img2) return;
+  if (!track || !compareView || !img1) return;
 
   const ensureReady = () => {
     const w = img1.clientWidth;
     const h = compareView.clientHeight;
-    if (w === 0 || h === 0) {
-      requestAnimationFrame(ensureReady);
-      return;
-    }
+    if (w === 0 || h === 0) { requestAnimationFrame(ensureReady); return; }
 
     const halfH = h / 2;
-    const greenZoneHeight = halfH * 0.35; // onderste 35% van elk land
-    const greenZoneTop = halfH * 0.65;    // begin van het groen
+    const GREEN_TOP_RATIO = 0.4;
+    const GREEN_BOTTOM_RATIO = 0.3;
+    const zoneStart = w * 0.0;
+    const zoneEnd = w * 0.16;
+    const zoneWidth = Math.max(0, zoneEnd - zoneStart - 48);
 
-    // === LAND 1 (bovenste helft) ===
+    const randX = () => zoneStart + Math.random() * zoneWidth;
+    const randScale = () => 0.8 + Math.random() * 0.8;
+
+    const randY = () => {
+      const yMin = (position === "top")
+        ? halfH * GREEN_TOP_RATIO
+        : halfH + halfH * GREEN_TOP_RATIO;
+      const yMax = (position === "top")
+        ? halfH * GREEN_BOTTOM_RATIO
+        : halfH + halfH * GREEN_BOTTOM_RATIO;
+      return yMin + Math.random() * (yMax - yMin);
+    };
+
     for (let i = 0; i < count; i++) {
       const tree = document.createElement("img");
       tree.src = "/img/boom.svg";
       tree.className = "tree";
-
-      const x = Math.random() * (w - 48);
-      const y = greenZoneTop * 0.9 + Math.random() * (greenZoneHeight * 0.9);
-      const scale = 0.8 + Math.random() * 0.8;
-
-      tree.style.left = `${x}px`;
-      tree.style.top = `${y}px`;
-      tree.style.transform = `scale(${scale})`;
-      track.appendChild(tree);
-    }
-
-    // === LAND 2 (onderste helft) ===
-    for (let i = 0; i < count; i++) {
-      const tree = document.createElement("img");
-      tree.src = "/img/boom.svg";
-      tree.className = "tree";
-
-      const x = Math.random() * (w - 48);
-      const y = halfH + greenZoneTop * 0.9 + Math.random() * (greenZoneHeight * 0.9);
-      const scale = 0.8 + Math.random() * 0.8;
-
-      tree.style.left = `${x}px`;
-      tree.style.top = `${y}px`;
-      tree.style.transform = `scale(${scale})`;
+      tree.style.left = `${randX()}px`;
+      tree.style.top = `${randY()}px`;
+      tree.style.transform = `scale(${randScale()})`;
       track.appendChild(tree);
     }
   };

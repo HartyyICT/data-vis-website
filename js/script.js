@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const compareView = document.getElementById("compare-view");
   const track = document.getElementById("compare-track");
 
-  // Mapping van Nederlandse landnamen naar Engelse keys in de JSON
   const countryKey = {
     "nederland": "netherlands",
     "brazilie": "brazil",
@@ -15,89 +14,55 @@ document.addEventListener("DOMContentLoaded", () => {
     "india": "india"
   };
 
-  // Hier is de vergelijk functie
   compareBtn.addEventListener("click", () => {
     const c1 = document.getElementById("country1").value;
     const c2 = document.getElementById("country2").value;
 
-    if (!c1 || !c2) {
-      alert("Selecteer twee landen.");
-      return;
-    }
-    if (c1 === c2) {
-      alert("Kies twee verschillende landen.");
-      return;
-    }
+    if (!c1 || !c2) return alert("Selecteer twee landen.");
+    if (c1 === c2) return alert("Kies twee verschillende landen.");
 
-    // Hier laat hij de vergelijking zien en gaat de home screen weg
     homeScreen.style.display = "none";
     compareView.style.display = "block";
 
-    // Beide landen op elkaar zetten
     track.innerHTML = `
       <img src="/img/${c1}.svg" alt="${c1}" class="country-img" id="img1" />
       <img src="/img/${c2}.svg" alt="${c2}" class="country-img" id="img2" />
     `;
-    // ✨ hier bomen toevoegen (bijv. 25 stuks)
-      spawnRandomTrees(25);
 
-    // reset scrollpositie
     compareView.scrollTo({ left: 0 });
 
-    // JSON-bestand laden
     fetch("/data/esg-selected-countries.json")
       .then((r) => r.json())
       .then((data) => {
         console.log("✅ ESG-data geladen:", data);
-
-        // Mapping gebruiken voor correcte key in JSON
         const key1 = countryKey[c1];
         const key2 = countryKey[c2];
 
-        // Voor nu toon data in console voor debugging
-        console.log(`Data voor ${c1}:`, data[key1]);
-        console.log(`Data voor ${c2}:`, data[key2]);
+        const forest1 = data[key1]["Forest area (% of land area)"]["2021"];
+        const forest2 = data[key2]["Forest area (% of land area)"]["2021"];
 
-        // later hover-interacties toevoegen:
-        // Bijvoorbeeld: hover op land toon specifieke waarde
-        const img1 = document.getElementById("img1");
-        const img2 = document.getElementById("img2");
+        const count1 = Math.round((forest1 / 100) * 100);
+        const count2 = Math.round((forest2 / 100) * 100);
 
-        // Wacht even tot DOM echt geladen is
-        requestAnimationFrame(() => {
-          if (!img1 || !img2) {
-            console.error("Afbeeldingen niet gevonden, kan geen eventlistener toevoegen.");
-            return;
-          }
+        console.log(`${c1}: ${forest1}% bosgebied → ${count1} bomen`);
+        console.log(`${c2}: ${forest2}% bosgebied → ${count2} bomen`);
 
-          img1.addEventListener("mousemove", () => {
-            const value = data[key1]["Life expectancy at birth, total (years)"]["2020"];
-            console.log(`${c1} - Life expectancy 2020:`, value);
-          });
-
-          img2.addEventListener("mousemove", () => {
-            const value = data[key2]["Life expectancy at birth, total (years)"]["2020"];
-            console.log(`${c2} - Life expectancy 2020:`, value);
-          });
-        });
+        // 🔥 Roep hier de functie uit boom-generator.js aan
+        spawnRandomTrees(count1, "top");
+        spawnRandomTrees(count2, "bottom");
       })
       .catch((err) => console.error("Fout bij laden van JSON:", err));
 
-    // horizontaal scrollen inschakelen met muiswiel
     enableHorizontalScroll(compareView);
   });
 
-  // terugknop
   backBtn.addEventListener("click", () => {
     compareView.style.display = "none";
     homeScreen.style.display = "flex";
+    document.querySelectorAll(".tree").forEach(t => t.remove());
   });
 });
 
-/**
- * Zorgt dat verticale muiswielbeweging horizontaal scrolt.
- * @param {HTMLElement} element - de container waarop gescrold wordt
- */
 function enableHorizontalScroll(element) {
   element.addEventListener(
     "wheel",
@@ -110,4 +75,3 @@ function enableHorizontalScroll(element) {
     { passive: false }
   );
 }
-

@@ -5,7 +5,7 @@ body {
   overflow: hidden;
 }
 
-/* === Startscherm === */
+/*startscherm*/
 .home-screen {
   display: flex;
   flex-direction: column;
@@ -54,7 +54,7 @@ select {
   background-color: #555;
 }
 
-/* === Compare-modus === */
+/*vergelijking*/
 .compare-view {
   width: 100vw;
   height: 100vh;
@@ -66,20 +66,20 @@ select {
 
 .compare-track {
   display: flex;
-  flex-direction: column; /* boven/onder */
+  flex-direction: column; 
   width: max-content;
   height: 100vh;
 }
 
 .country-img {
   display: block;
-  height: 50vh;  /* gestapeld */
+  height: 50vh; 
   width: auto;
   pointer-events: none;
   user-select: none;
 }
 
-/* Terugknop */
+/*terugknop*/
 .back-btn {
   position: fixed;
   top: 16px;
@@ -96,26 +96,25 @@ select {
   background: #555;
 }
 
-/* Scrollbar verbergen in alle browsers */
+/* scrollbar verbergen in alle browsers */
 .compare-view {
-  -ms-overflow-style: none;  /* IE en Edge */
-  scrollbar-width: none;     /* Firefox */
+  -ms-overflow-style: none;  
+  scrollbar-width: none;     
 }
 .compare-view::-webkit-scrollbar {
-  display: none;             /* Chrome, Safari, Opera */
+  display: none;            
 }
 
-/* Track is de ‘canvas’ waar we bomen op positioneren */
 .compare-track {
-  position: relative; /* <- belangrijk voor absolute bomen */
+  position: relative;
 }
 
-/* Stijl van de boom-afbeeldingen */
 .tree {
   position: absolute;
-  z-index: 5;           /* boven de landen */
-  width: clamp(24px, 3vh, 48px);
+  z-index: 5;           
   height: auto;
-  pointer-events: none; /* nooit hover/click blokkeren */
+  pointer-events: none; 
   user-select: none;
+  width: 200px;
+  height: auto;
 }
