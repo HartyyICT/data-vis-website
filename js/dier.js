@@ -46,39 +46,82 @@ function spawnAnimals(count, position, countryName, countryData) {
       document.body.appendChild(popup);
     }
 
-    // 🦌 dieren genereren
+    // dieren genereren
     for (let i = 0; i < count; i++) {
       const animal = document.createElement("img");
-      animal.src = "/img/hert.svg"; // jouw hert-afbeelding
+      animal.src = "/img/hert.svg";
       animal.className = "animal";
       animal.style.left = `${randX()}px`;
       animal.style.top = `${randY()}px`;
-      animal.style.transform = `scale(${randScale()})`;
+      const flip = Math.random() < 0.5 ? 1 : -1;
+      animal.style.transform = `scale(${flip * randScale()}, ${randScale()})`;
       track.appendChild(animal);
+      
+        // popup
+        animal.addEventListener("click", (e) => {
+        const threatened = parseFloat(countryData["Mammal species, threatened"]["2018"]);
+        let storyText = "";
 
-      // Klikinteractie
-      animal.addEventListener("click", (e) => {
-        const threatened = countryData["Mammal species, threatened"]["2018"];
+        if (threatened <= 5) {
+            storyText = `
+            In ${countryName} zijn er slechts enkele zoogdiersoorten die kwetsbaar zijn.
+            Dankzij beschermde natuurgebieden en duurzaam beleid blijft de biodiversiteit hier relatief stabiel.
+            Toch is waakzaamheid belangrijk, want elke soort telt.
+            `;
+        } else if (threatened <= 20) {
+            storyText = `
+            ${countryName} kent een groeiende druk op de natuur. 
+            Een aantal zoogdieren staat op de lijst van bedreigde soorten door ontbossing, landbouwuitbreiding en klimaatverandering. 
+            Er zijn inspanningen gaande om hun leefgebieden te herstellen, maar de balans blijft fragiel.
+            `;
+        } else {
+            storyText = `
+            In ${countryName} is het aantal bedreigde zoogdiersoorten zorgwekkend hoog. 
+            Menselijke activiteit, vervuiling en verlies van leefgebied hebben diepe sporen achtergelaten. 
+            `;
+        }
+
         popup.innerHTML = `
-          <button class="close-animal">×</button>
-          <div class="popup-content">
+            <button class="close-animal">×</button>
+            <div class="popup-content">
             <strong>${countryName.toUpperCase()}</strong><br>
-            🦌 Bedreigde zoogdieren: <b>${threatened}</b><br><br>
-            In ${countryName} staan steeds meer zoogdieren onder druk door ontbossing
-            en klimaatverandering. Dit aantal vertegenwoordigt soorten die risico lopen
-            op uitsterven.
-          </div>
+            🦌 Bedreigde zoogdiersoorten: <b>${threatened}</b><br><br>
+            ${storyText}
+            </div>
         `;
 
         popup.style.left = e.pageX + "px";
         popup.style.top = e.pageY + "px";
         popup.style.display = "block";
 
+        // Zorg dat popup binnen het scherm blijft
+            const popupRect = popup.getBoundingClientRect();
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+
+            let newLeft = e.pageX;
+            let newTop = e.pageY;
+
+            // Voorkom dat de popup buiten het scherm aan de rechterkant valt
+            if (popupRect.width + newLeft > screenWidth - 20) {
+            newLeft = screenWidth - popupRect.width - 20;
+            }
+
+            // Voorkom dat de popup buiten het scherm aan de onderkant valt
+            if (popupRect.height + newTop > screenHeight - 20) {
+            newTop = screenHeight - popupRect.height - 20;
+            }
+
+            // Pas de gecorrigeerde positie toe
+            popup.style.left = `${newLeft}px`;
+            popup.style.top = `${newTop}px`;
+
+
         const closeBtn = popup.querySelector(".close-animal");
         closeBtn.addEventListener("click", () => {
-          popup.style.display = "none";
+            popup.style.display = "none";
         });
-      });
+        });
     }
   };
 
