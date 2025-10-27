@@ -47,9 +47,10 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(`${c1}: ${forest1}% bosgebied → ${count1} bomen`);
         console.log(`${c2}: ${forest2}% bosgebied → ${count2} bomen`);
 
-        // 🔥 Roep hier de functie uit boom-generator.js aan
-        spawnRandomTrees(count1, "top");
-        spawnRandomTrees(count2, "bottom");
+        //functie uit boom-generator.js aanroepen
+        spawnRandomTrees(count1, "top", c1, data[key1]);
+        spawnRandomTrees(count2, "bottom", c2, data[key2]);
+
       })
       .catch((err) => console.error("Fout bij laden van JSON:", err));
 

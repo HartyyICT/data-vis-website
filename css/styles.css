@@ -112,9 +112,69 @@ select {
 .tree {
   position: absolute;
   z-index: 5;           
-  height: auto;
-  pointer-events: none; 
+  height: auto; 
   user-select: none;
   width: 200px;
   height: auto;
+  transition: transform 0.25s ease, filter 0.25s ease;
+  cursor: pointer;
 }
+
+.tree:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 8px rgb(255, 255, 255));
+}
+
+#data-popup {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  display: none;
+  z-index: 999;
+  max-width: 240px;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+#data-popup em {
+  font-style: normal;
+  color: #d2f8d2;
+  font-size: 0.9rem;
+  display: block;
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+
+#data-popup .popup-content {
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
+
+#close-popup {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: color 0.2s ease;
+}
+
+#close-popup:hover {
+  color: #f55;
+}
+
+#data-popup {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#data-popup.show {
+  opacity: 1;
+}
+
