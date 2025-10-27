@@ -61,14 +61,29 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(`${c1}: ${threatened1} bedreigde soorten → ${deerCount1} herten`);
         console.log(`${c2}: ${threatened2} bedreigde soorten → ${deerCount2} herten`);
 
+        // Tree cover loss data verwerken
+        const loss1 = parseFloat(data[key1]["Tree cover loss (ha)"]["2021"]);
+        const loss2 = parseFloat(data[key2]["Tree cover loss (ha)"]["2021"]);
 
-        // Genereer dieren per land
+        // bereken aantal stammen (meer verlies → meer stammen)
+        const stumpCount1 = Math.min(20, Math.max(3, Math.round(loss1 / 10000)));
+        const stumpCount2 = Math.min(20, Math.max(3, Math.round(loss2 / 10000)));
+
+        console.log(`${c1}: ${loss1} verlies → ${stumpCount1} stammen`);
+        console.log(`${c2}: ${loss2} verlies → ${stumpCount2} stammen`);
+
+        // genereer dieren per land
         spawnAnimals(deerCount1, "top", c1, data[key1]);
         spawnAnimals(deerCount2, "bottom", c2, data[key2]);
 
-        //functie uit boom-generator.js aanroepen
+        // genereer bomen per land
         spawnRandomTrees(count1, "top", c1, data[key1]);
         spawnRandomTrees(count2, "bottom", c2, data[key2]);
+
+        // genereer stammen per land
+        spawnTreeStumps(stumpCount1, "top", c1, data[key1]);
+        spawnTreeStumps(stumpCount2, "bottom", c2, data[key2]);
+
 
       })
       .catch((err) => console.error("Fout bij laden van JSON:", err));

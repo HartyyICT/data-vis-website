@@ -1,20 +1,19 @@
-.tree {
+.stam {
   position: absolute;
-  z-index: 5;
+  z-index: 25;
+  width: 100px;
   height: auto;
-  user-select: none;
-  width: 200px;
-  height: auto;
-  transition: transform 0.25s ease, filter 0.25s ease;
   cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-.tree:hover {
+.stam:hover {
   transform: scale(1.1);
-  filter: drop-shadow(0 0 8px rgb(255, 255, 255));
+  filter: drop-shadow(0 0 8px white);
 }
 
-#data-popup {
+/* Popup */
+.stam-popup {
   position: fixed;
   background: rgba(0, 0, 0, 0.85);
   color: #fff;
@@ -25,10 +24,10 @@
   max-width: 240px;
   font-size: 0.95rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  animation: fadeInTree 0.3s ease forwards;
+  animation: fadeInStam 0.3s ease forwards;
 }
 
-#data-popup em {
+.stam-popup em {
   font-style: normal;
   color: #d2f8d2;
   font-size: 0.9rem;
@@ -37,12 +36,7 @@
   line-height: 1.5;
 }
 
-#data-popup .popup-content {
-  margin-top: 0.5rem;
-  line-height: 1.4;
-}
-
-#close-popup {
+.stam-popup .close-stam {
   position: absolute;
   top: 6px;
   right: 8px;
@@ -55,11 +49,11 @@
   transition: color 0.2s ease;
 }
 
-#close-popup:hover {
+.stam-popup .close-stam:hover {
   color: #f55;
 }
 
-@keyframes fadeInTree {
+@keyframes fadeInStam {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
 }

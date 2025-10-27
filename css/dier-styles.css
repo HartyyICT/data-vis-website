@@ -8,7 +8,8 @@
 }
 
 .animal:hover {
-  transform: scale(1.15);
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 8px white);
 }
 
 .animal-popup {
