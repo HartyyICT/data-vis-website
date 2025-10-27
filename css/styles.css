@@ -1,55 +1,180 @@
 body {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  overflow: hidden;
 }
 
-.slide {
-    width: 100%;
-    height: 100vh;
+/*startscherm*/
+.home-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  gap: 2rem;
+  background: #ddd;
 }
 
-.wrapper {
-    display: flex;
-    flex-direction: row;
-    width: 400vw;
-    transform: rotate(90deg) translateY(-100vh);
-    transform-origin: top left;
+.selectors {
+  display: flex;
+  gap: 2rem;
 }
 
-.outer-wrapper {
-    width: 100vh;
-    height: 100vw;
-    transform: rotate(-90deg) translateX(-100vh);
-    transform-origin: top left;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    position: absolute;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+.selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-::-webkit-scrollbar { /* WebKit */
-    display: none;
+label {
+  font-size: 1.2rem;
+  margin-bottom: 0.4rem;
 }
 
-.one {
-    background-color: red;
+select {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
 }
 
-.two {
-    background-color: blue;
+#compare-btn {
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 1rem;
+  background-color: #333;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+#compare-btn:hover {
+  background-color: #555;
 }
 
-.three {
-    background-color: green;
-}   
+/*vergelijking*/
+.compare-view {
+  width: 100vw;
+  height: 100vh;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: #000;
+  position: relative;
+}
 
-.four {
-    background-color: yellow;
-}   
+.compare-track {
+  display: flex;
+  flex-direction: column; 
+  width: max-content;
+  height: 100vh;
+}
 
-.five {
-    background-color: purple;
-}   
+.country-img {
+  display: block;
+  height: 50vh; 
+  width: auto;
+  pointer-events: none;
+  user-select: none;
+}
 
+/*terugknop*/
+.back-btn {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 10;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 0.6rem;
+  background: #333;
+  color: #fff;
+  cursor: pointer;
+}
+.back-btn:hover {
+  background: #555;
+}
+
+/* scrollbar verbergen in alle browsers */
+.compare-view {
+  -ms-overflow-style: none;  
+  scrollbar-width: none;     
+}
+.compare-view::-webkit-scrollbar {
+  display: none;            
+}
+
+.compare-track {
+  position: relative;
+}
+
+.tree {
+  position: absolute;
+  z-index: 5;           
+  height: auto; 
+  user-select: none;
+  width: 200px;
+  height: auto;
+  transition: transform 0.25s ease, filter 0.25s ease;
+  cursor: pointer;
+}
+
+.tree:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 8px rgb(255, 255, 255));
+}
+
+#data-popup {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  display: none;
+  z-index: 999;
+  max-width: 240px;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+#data-popup em {
+  font-style: normal;
+  color: #d2f8d2;
+  font-size: 0.9rem;
+  display: block;
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+
+#data-popup .popup-content {
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
+
+#close-popup {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: color 0.2s ease;
+}
+
+#close-popup:hover {
+  color: #f55;
+}
+
+#data-popup {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#data-popup.show {
+  opacity: 1;
+}
 
