@@ -1,18 +1,21 @@
 .tree {
   position: absolute;
   z-index: 5;
-  height: auto;
   user-select: none;
-  width: 200px;
+  width: 200px;            /* vaste basisgrootte */
   height: auto;
-  transition: transform 0.25s ease, filter 0.25s ease;
   cursor: pointer;
+  transition: transform 0.25s ease, filter 0.25s ease;
+  /* variabelen voor schaal */
+  --tree-scale: 1;
+  transform: scale(var(--tree-scale));
 }
 
 .tree:hover {
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 8px rgb(255, 255, 255));
+  transform: scale(calc(var(--tree-scale) * 1.1));
+  filter: drop-shadow(0 0 8px #fff);
 }
+
 
 #data-popup {
   position: fixed;

@@ -58,7 +58,7 @@ function spawnRandomTrees(count, position, countryName, countryData) {
       tree.className = "tree";
       tree.style.left = `${randX()}px`;
       tree.style.top = `${randY()}px`;
-      tree.style.transform = `scale(${randScale()})`;
+      tree.style.setProperty("--tree-scale", randScale().toFixed(2));
       track.appendChild(tree);
 
       // popup

@@ -53,8 +53,12 @@ function spawnAnimals(count, position, countryName, countryData) {
       animal.className = "animal";
       animal.style.left = `${randX()}px`;
       animal.style.top = `${randY()}px`;
-      const flip = Math.random() < 0.5 ? 1 : -1;
-      animal.style.transform = `scale(${flip * randScale()}, ${randScale()})`;
+      const flip = Math.random() < 0.5 ? -1 : 1;  // horizontale richting
+      const base = randScale();                    // 0.9–1.1 bijvoorbeeld
+      animal.style.setProperty("--flip", flip);
+      animal.style.setProperty("--a-scale", base.toFixed(2));
+
+
       track.appendChild(animal);
       
         // popup

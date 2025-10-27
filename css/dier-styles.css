@@ -1,16 +1,22 @@
 .animal {
   position: absolute;
   z-index: 20;
-  width: 120px; 
+  width: 120px;
   height: auto;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: filter 0.3s ease, transform 0.3s ease;
+  --flip: 1;  
+  --a-scale: 1;      
+  --hover-scale: 1;  
+  transform: scaleX(var(--flip)) scale(calc(var(--a-scale) * var(--hover-scale)));
 }
 
 .animal:hover {
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 8px white);
+  --hover-scale: 1.15;
+  filter: drop-shadow(0 0 8px #fff);
 }
+
+
 
 .animal-popup {
   position: fixed;
