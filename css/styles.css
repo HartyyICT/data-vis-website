@@ -125,6 +125,7 @@ select {
   filter: drop-shadow(0 0 8px rgb(255, 255, 255));
 }
 
+
 #data-popup {
   position: fixed;
   background: rgba(0, 0, 0, 0.85);
@@ -136,6 +137,7 @@ select {
   max-width: 240px;
   font-size: 0.95rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  animation: fadeInTree 0.3s ease forwards;
 }
 
 #data-popup em {
@@ -169,12 +171,8 @@ select {
   color: #f55;
 }
 
-#data-popup {
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-#data-popup.show {
-  opacity: 1;
+@keyframes fadeInTree {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
 

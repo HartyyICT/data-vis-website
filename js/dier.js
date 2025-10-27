@@ -58,7 +58,7 @@ function spawnAnimals(count, position, countryName, countryData) {
 
       // Klikinteractie
       animal.addEventListener("click", (e) => {
-        const threatened = countryData["Mammal species, threatened"]["2020"];
+        const threatened = countryData["Mammal species, threatened"]["2018"];
         popup.innerHTML = `
           <button class="close-animal">×</button>
           <div class="popup-content">

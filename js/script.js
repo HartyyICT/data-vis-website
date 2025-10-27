@@ -50,6 +50,22 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(`${c1}: ${forest1}% bosgebied → ${count1} bomen`);
         console.log(`${c2}: ${forest2}% bosgebied → ${count2} bomen`);
 
+        // Haal de waarde uit de JSON
+        const threatened1 = parseFloat(data[key1]["Mammal species, threatened"]["2018"]);
+        const threatened2 = parseFloat(data[key2]["Mammal species, threatened"]["2018"]);
+
+        const scaleFactor = 30;
+        const deerCount1 = Math.min(6, Math.max(2, Math.round(scaleFactor / threatened1)));
+        const deerCount2 = Math.min(6, Math.max(2, Math.round(scaleFactor / threatened2)));
+
+        console.log(`${c1}: ${threatened1} bedreigde soorten → ${deerCount1} herten`);
+        console.log(`${c2}: ${threatened2} bedreigde soorten → ${deerCount2} herten`);
+
+
+        // Genereer dieren per land
+        spawnAnimals(deerCount1, "top", c1, data[key1]);
+        spawnAnimals(deerCount2, "bottom", c2, data[key2]);
+
         //functie uit boom-generator.js aanroepen
         spawnRandomTrees(count1, "top", c1, data[key1]);
         spawnRandomTrees(count2, "bottom", c2, data[key2]);
