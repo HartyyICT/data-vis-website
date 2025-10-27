@@ -1,0 +1,129 @@
+/**
+ * Plaatst willekeurige dieren (bijv. herten.svg) op beide landen,
+ * binnen een bepaald gebied, vergelijkbaar met de bomen.
+ * @param {number} count - aantal dieren per land
+ * @param {"top"|"bottom"} position - of het bovenste of onderste land is
+ * @param {string} countryName - landnaam
+ * @param {object} countryData - data-object uit JSON
+ */
+function spawnAnimals(count, position, countryName, countryData) {
+  const track = document.getElementById("compare-track");
+  const compareView = document.getElementById("compare-view");
+  const img1 = document.getElementById("img1");
+  if (!track || !compareView || !img1) return;
+
+  const ensureReady = () => {
+    const w = img1.clientWidth;
+    const h = compareView.clientHeight;
+    if (w === 0 || h === 0) { requestAnimationFrame(ensureReady); return; }
+
+    const halfH = h / 2;
+    const GREEN_TOP_RATIO = 0.7;
+    const GREEN_BOTTOM_RATIO = 0.6;
+    const zoneStart = w * 0.0;
+    const zoneEnd = w * 0.16;
+    const zoneWidth = Math.max(0, zoneEnd - zoneStart - 48);
+
+    const randX = () => zoneStart + Math.random() * zoneWidth;
+    const randScale = () => 0.9 + Math.random() * 0.2;
+
+
+    const randY = () => {
+      const yMin = (position === "top")
+        ? halfH * GREEN_TOP_RATIO
+        : halfH + halfH * GREEN_TOP_RATIO;
+      const yMax = (position === "top")
+        ? halfH * GREEN_BOTTOM_RATIO
+        : halfH + halfH * GREEN_BOTTOM_RATIO;
+      return yMin + Math.random() * (yMax - yMin);
+    };
+
+    let popup = document.getElementById("animal-popup");
+    if (!popup) {
+      popup = document.createElement("div");
+      popup.id = "animal-popup";
+      popup.className = "animal-popup";
+      document.body.appendChild(popup);
+    }
+
+    // dieren genereren
+    for (let i = 0; i < count; i++) {
+      const animal = document.createElement("img");
+      animal.src = "/img/hert.svg";
+      animal.className = "animal";
+      animal.style.left = `${randX()}px`;
+      animal.style.top = `${randY()}px`;
+      const flip = Math.random() < 0.5 ? 1 : -1;
+      animal.style.transform = `scale(${flip * randScale()}, ${randScale()})`;
+      track.appendChild(animal);
+      
+        // popup
+        animal.addEventListener("click", (e) => {
+        const threatened = parseFloat(countryData["Mammal species, threatened"]["2018"]);
+        let storyText = "";
+
+        if (threatened <= 5) {
+            storyText = `
+            In ${countryName} zijn er slechts enkele zoogdiersoorten die kwetsbaar zijn.
+            Dankzij beschermde natuurgebieden en duurzaam beleid blijft de biodiversiteit hier relatief stabiel.
+            Toch is waakzaamheid belangrijk, want elke soort telt.
+            `;
+        } else if (threatened <= 20) {
+            storyText = `
+            ${countryName} kent een groeiende druk op de natuur. 
+            Een aantal zoogdieren staat op de lijst van bedreigde soorten door ontbossing, landbouwuitbreiding en klimaatverandering. 
+            Er zijn inspanningen gaande om hun leefgebieden te herstellen, maar de balans blijft fragiel.
+            `;
+        } else {
+            storyText = `
+            In ${countryName} is het aantal bedreigde zoogdiersoorten zorgwekkend hoog. 
+            Menselijke activiteit, vervuiling en verlies van leefgebied hebben diepe sporen achtergelaten. 
+            `;
+        }
+
+        popup.innerHTML = `
+            <button class="close-animal">×</button>
+            <div class="popup-content">
+            <strong>${countryName.toUpperCase()}</strong><br>
+            🦌 Bedreigde zoogdiersoorten: <b>${threatened}</b><br><br>
+            ${storyText}
+            </div>
+        `;
+
+        popup.style.left = e.pageX + "px";
+        popup.style.top = e.pageY + "px";
+        popup.style.display = "block";
+
+        // Zorg dat popup binnen het scherm blijft
+            const popupRect = popup.getBoundingClientRect();
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+
+            let newLeft = e.pageX;
+            let newTop = e.pageY;
+
+            // Voorkom dat de popup buiten het scherm aan de rechterkant valt
+            if (popupRect.width + newLeft > screenWidth - 20) {
+            newLeft = screenWidth - popupRect.width - 20;
+            }
+
+            // Voorkom dat de popup buiten het scherm aan de onderkant valt
+            if (popupRect.height + newTop > screenHeight - 20) {
+            newTop = screenHeight - popupRect.height - 20;
+            }
+
+            // Pas de gecorrigeerde positie toe
+            popup.style.left = `${newLeft}px`;
+            popup.style.top = `${newTop}px`;
+
+
+        const closeBtn = popup.querySelector(".close-animal");
+        closeBtn.addEventListener("click", () => {
+            popup.style.display = "none";
+        });
+        });
+    }
+  };
+
+  requestAnimationFrame(ensureReady);
+}

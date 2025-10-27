@@ -63,7 +63,7 @@ function spawnRandomTrees(count, position, countryName, countryData) {
 
       // popup
       tree.addEventListener("click", (e) => {
-        const forestArea = countryData["Forest area (% of land area)"]["2020"];
+        const forestArea = countryData["Forest area (% of land area)"]["2021"];
         const percentage = forestArea.toFixed(2);
         let storyText = "";
 
@@ -93,6 +93,29 @@ function spawnRandomTrees(count, position, countryName, countryData) {
         popup.style.left = e.pageX + "px";
         popup.style.top = e.pageY + "px";
         popup.style.display = "block";
+
+        // Zorg dat popup binnen het scherm blijft
+            const popupRect = popup.getBoundingClientRect();
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+
+            let newLeft = e.pageX;
+            let newTop = e.pageY;
+
+            // Voorkom dat de popup buiten het scherm aan de rechterkant valt
+            if (popupRect.width + newLeft > screenWidth - 20) {
+            newLeft = screenWidth - popupRect.width - 20;
+            }
+
+            // Voorkom dat de popup buiten het scherm aan de onderkant valt
+            if (popupRect.height + newTop > screenHeight - 20) {
+            newTop = screenHeight - popupRect.height - 20;
+            }
+
+            // Pas de gecorrigeerde positie toe
+            popup.style.left = `${newLeft}px`;
+            popup.style.top = `${newTop}px`;
+
 
         // fade-in animatie
         popup.classList.add("show");
