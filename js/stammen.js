@@ -49,7 +49,7 @@ function spawnTreeStumps(count, position, countryName, countryData) {
       document.body.appendChild(popup);
     }
 
-    // Stammen genereren
+    // 🌲 Stammen genereren
     for (let i = 0; i < count; i++) {
       const stump = document.createElement("img");
       stump.src = "/img/boomstam.svg";
@@ -58,11 +58,17 @@ function spawnTreeStumps(count, position, countryName, countryData) {
       stump.style.top = `${randY()}px`;
       track.appendChild(stump);
 
+      // 📊 Popup met data
       stump.addEventListener("click", (e) => {
         const loss = countryData["Tree cover loss (ha)"]["2021"];
+        const forestry = countryData["Forestry production index (2014-2016 = 100)"]["2021"];
         const lossFormatted = Math.round(loss).toLocaleString();
-        let story = "";
+        const forestryFormatted = forestry ? forestry.toFixed(1) : "n.v.t.";
 
+        let story = "";
+        let forestryStory = "";
+
+        // Verhaal over bosverlies
         if (loss < 1000) {
           story = `In ${countryName} blijft het bos grotendeels intact. Slechts ${lossFormatted} hectare aan bomen verdween dit jaar.`;
         } else if (loss < 50000) {
@@ -71,20 +77,59 @@ function spawnTreeStumps(count, position, countryName, countryData) {
           story = `In ${countryName} verdwijnen enorme delen bos: ${lossFormatted} hectare ging verloren. Dit heeft grote gevolgen voor natuur en klimaat.`;
         }
 
+        // Verhaal over de bosbouwindex
+       // Verhaal over de bosbouwindex
+        if (forestry < 90) {
+          forestryStory = `De bosbouwproductie is lager dan in voorgaande jaren (${forestryFormatted}). 
+          Een waarde onder 100 betekent dat er minder houtproductie plaatsvindt dan in 2014–2016, mogelijk door duurzaam beleid of bosherstel.`;
+        } else if (forestry < 110) {
+          forestryStory = `De bosbouwproductie is stabiel gebleven (${forestryFormatted}). 
+          Een waarde rond 100 duidt op een vergelijkbaar productieniveau als in 2014–2016.`;
+        } else {
+          forestryStory = `De bosbouwproductie is toegenomen (${forestryFormatted}). 
+          Een waarde boven 100 wijst op intensiever gebruik van bosgrond en een groei in houtproductie.`;
+        }
+
+
         popup.innerHTML = `
           <button class="close-stam">×</button>
           <div class="popup-content">
             <strong>${countryName.toUpperCase()}</strong><br>
-            🌲 Verloren bosgebied: ${lossFormatted} hectare<br><br>
-            <em>${story}</em>
+            🌲 Verloren bosgebied: ${lossFormatted} hectare<br>
+            🪵 Bosbouwproductie-index: ${forestryFormatted}<br><br>
+            <em>${story}</em><br><br>
+            <em>${forestryStory}</em>
           </div>
         `;
 
-        // Positie en fade
+        // positie & fade
         popup.style.left = Math.min(e.pageX, window.innerWidth - 280) + "px";
         popup.style.top = Math.min(e.pageY, window.innerHeight - 180) + "px";
         popup.style.display = "block";
         popup.classList.add("show");
+
+        // popup blijft binnen scherm
+            const popupRect = popup.getBoundingClientRect();
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+
+            let newLeft = e.pageX;
+            let newTop = e.pageY;
+
+            // popup blijft binnen scherm
+            if (popupRect.width + newLeft > screenWidth - 20) {
+            newLeft = screenWidth - popupRect.width - 20;
+            }
+
+            // popup blijft binnen scherm
+            if (popupRect.height + newTop > screenHeight - 20) {
+            newTop = screenHeight - popupRect.height - 20;
+            }
+
+            // past de positie aan
+            popup.style.left = `${newLeft}px`;
+            popup.style.top = `${newTop}px`;
+
 
         // Sluitknop
         const closeBtn = popup.querySelector(".close-stam");

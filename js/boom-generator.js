@@ -94,7 +94,7 @@ function spawnRandomTrees(count, position, countryName, countryData) {
         popup.style.top = e.pageY + "px";
         popup.style.display = "block";
 
-        // Zorg dat popup binnen het scherm blijft
+        // popup blijft binnen scherm
             const popupRect = popup.getBoundingClientRect();
             const screenWidth = window.innerWidth;
             const screenHeight = window.innerHeight;
@@ -102,17 +102,17 @@ function spawnRandomTrees(count, position, countryName, countryData) {
             let newLeft = e.pageX;
             let newTop = e.pageY;
 
-            // Voorkom dat de popup buiten het scherm aan de rechterkant valt
+            // popup blijft binnen scherm
             if (popupRect.width + newLeft > screenWidth - 20) {
             newLeft = screenWidth - popupRect.width - 20;
             }
 
-            // Voorkom dat de popup buiten het scherm aan de onderkant valt
+            // popup blijft binnen scherm
             if (popupRect.height + newTop > screenHeight - 20) {
             newTop = screenHeight - popupRect.height - 20;
             }
 
-            // Pas de gecorrigeerde positie toe
+            // past de positie aan
             popup.style.left = `${newLeft}px`;
             popup.style.top = `${newTop}px`;
 

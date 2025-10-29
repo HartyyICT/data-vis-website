@@ -84,7 +84,23 @@ document.addEventListener("DOMContentLoaded", () => {
         spawnTreeStumps(stumpCount1, "top", c1, data[key1]);
         spawnTreeStumps(stumpCount2, "bottom", c2, data[key2]);
 
+        // Fishing production index → aantal vissen bepalen
+        const fishing1 = data[key1]["Fishing production index (2014-2016 = 100)"]
+          ? parseFloat(data[key1]["Fishing production index (2014-2016 = 100)"]["2021"])
+          : 0;
 
+        const fishing2 = data[key2]["Fishing production index (2014-2016 = 100)"]
+          ? parseFloat(data[key2]["Fishing production index (2014-2016 = 100)"]["2021"])
+          : 0;
+
+        const fishCount1 = Math.min(25, Math.max(3, Math.round(fishing1 / 10)));
+        const fishCount2 = Math.min(25, Math.max(3, Math.round(fishing2 / 10)));
+
+        console.log(`${c1}: ${fishing1} visserij-index → ${fishCount1} vissen`);
+        console.log(`${c2}: ${fishing2} visserij-index → ${fishCount2} vissen`);
+
+        spawnFish(fishCount1, "top", c1, data[key1]);
+        spawnFish(fishCount2, "bottom", c2, data[key2]);
       })
       .catch((err) => console.error("Fout bij laden van JSON:", err));
 
@@ -110,3 +126,5 @@ function enableHorizontalScroll(element) {
     { passive: false }
   );
 }
+
+

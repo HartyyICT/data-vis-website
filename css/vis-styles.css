@@ -1,0 +1,49 @@
+.fish {
+  position: absolute;
+  z-index: 15;
+  width: 120px;
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.fish:hover {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 8px #fff);
+}
+
+.fish-popup {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  display: none;
+  z-index: 999;
+  max-width: 260px;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  animation: fadeInFish 0.3s ease forwards;
+}
+
+@keyframes fadeInFish {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.fish-popup .close-fish {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: color 0.2s ease;
+}
+
+.fish-popup .close-fish:hover {
+  color: #f55;
+}
