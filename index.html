@@ -58,5 +58,73 @@
   <script src="/js/vis.js"></script>
   <script src="/js/planten.js"></script>
   <script src="/js/script.js"></script>
+
+  <script>
+(() => {
+  // Label ↔ value zoals in jouw select
+  const labelFromValue = {
+    "nederland": "Nederland",
+    "zweden": "Zweden",
+    "india": "India",
+    "australie": "Australië",
+    "verenigde-staten": "Verenigde Staten",
+    "brazilie": "Brazilië"
+  };
+
+  // Officiële E, S, G (bron: EPI 2024, SPI 2025, WGI 2023)
+  const ESG = {
+    "nederland":  { E: 66.9,  S: 88.97, G: 95.75 },
+    "zweden":     { E: 70.3,  S: 89.42, G: 94.81 },
+    "india":      { E: 27.6,  S: 60.19, G: 67.92 },
+    "australie":  { E: 63.1,  S: 87.83, G: 93.87 },
+    "verenigde-staten": { E: 57.2, S: 84.65, G: 87.74 },
+    "brazilie":   { E: 53.0,  S: 71.26, G: 32.08 }
+  };
+
+  // samengesteld (0–100) + kleur van groen→rood
+  function composite({E,S,G}) { return (E + S + G) / 3; }
+  function scoreToColor(score) {
+    const r = Math.round(255 * (100 - score) / 100);
+    const g = Math.round(255 * score / 100);
+    return `rgb(${r},${g},0)`;
+  }
+
+  // Sorteer op ESG desc
+  const sorted = Object.entries(ESG)
+    .map(([value, parts]) => {
+      const esg = composite(parts);
+      return { value, label: labelFromValue[value], esg, ...parts, color: scoreToColor(esg) };
+    })
+    .sort((a,b) => b.esg - a.esg);
+
+  // Vervang opties in een select
+  function rebuildSelect(selectEl) {
+    const keep = selectEl.value || "";
+    const placeholder = selectEl.querySelector('option[value=""]')?.outerHTML
+      || '<option value="">Kies...</option>';
+    selectEl.innerHTML = placeholder;
+
+    for (const row of sorted) {
+      const opt = document.createElement('option');
+      opt.value = row.value;
+      opt.textContent =
+        `${row.label} – ESG: ${row.esg.toFixed(1)} ` +
+        `(E:${row.E.toFixed(1)} · S:${row.S.toFixed(2)} · G:${row.G.toFixed(2)})`;
+      opt.style.color = row.color;
+      selectEl.appendChild(opt);
+    }
+    if (keep && selectEl.querySelector(`option[value="${keep}"]`)) {
+      selectEl.value = keep;
+    }
+  }
+
+  // Pas beide dropdowns aan
+  const s1 = document.getElementById('country1');
+  const s2 = document.getElementById('country2');
+  if (s1) rebuildSelect(s1);
+  if (s2) rebuildSelect(s2);
+})();
+</script>
+
 </body>
 </html>
