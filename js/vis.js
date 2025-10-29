@@ -21,11 +21,11 @@ function spawnFish(count, position, countryName, countryData) {
     }
 
     const halfH = h / 2;
-    const WATER_TOP_RATIO = 0.4;
-    const WATER_BOTTOM_RATIO = 0.3;
+    const WATER_TOP_RATIO = 0.58;
+    const WATER_BOTTOM_RATIO = 0.8;
 
-    const zoneStart = w * 0.17;
-    const zoneEnd = w * 0.3;
+    const zoneStart = w * 0.2;
+    const zoneEnd = w * 0.38;
     const zoneWidth = Math.max(0, zoneEnd - zoneStart - 48);
 
     const randX = () => zoneStart + Math.random() * zoneWidth;

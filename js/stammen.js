@@ -6,6 +6,23 @@
  * @param {string} countryName
  * @param {object} countryData
  */
+
+// Helper: pak de meest recente waarde uit de data
+function getLatestValue(countryData, indicator, preferredYears = ["2023","2022","2021","2020","2019","2018"]) {
+  const series = countryData?.[indicator];
+  if (!series || typeof series !== "object") return null;
+
+  for (const y of preferredYears) {
+    const v = series[y];
+    if (v !== undefined && v !== null && v !== "") return parseFloat(v);
+  }
+
+  const years = Object.keys(series)
+    .filter(k => !isNaN(Number(k)) && series[k] !== "" && series[k] != null)
+    .sort((a,b) => Number(b) - Number(a));
+  return years.length ? parseFloat(series[years[0]]) : null;
+}
+
 function spawnTreeStumps(count, position, countryName, countryData) {
   const track = document.getElementById("compare-track");
   const compareView = document.getElementById("compare-view");
@@ -60,80 +77,48 @@ function spawnTreeStumps(count, position, countryName, countryData) {
 
       // 📊 Popup met data
       stump.addEventListener("click", (e) => {
-        const loss = countryData["Tree cover loss (ha)"]["2021"];
-        const forestry = countryData["Forestry production index (2014-2016 = 100)"]["2021"];
-        const lossFormatted = Math.round(loss).toLocaleString();
-        const forestryFormatted = forestry ? forestry.toFixed(1) : "n.v.t.";
+        const loss = getLatestValue(countryData, "Tree cover loss (ha)");
 
-        let story = "";
-        let forestryStory = "";
-
-        // Verhaal over bosverlies
-        if (loss < 1000) {
-          story = `In ${countryName} blijft het bos grotendeels intact. Slechts ${lossFormatted} hectare aan bomen verdween dit jaar.`;
-        } else if (loss < 50000) {
-          story = `De bossen in ${countryName} krimpen gestaag — ${lossFormatted} hectare aan bomen verdween in het afgelopen jaar.`;
+        if (loss == null) {
+          popup.innerHTML = `
+            <button class="close-stam">×</button>
+            <div class="popup-content">
+              <strong>${countryName.toUpperCase()}</strong><br>
+              🌲 Geen recente data beschikbaar over bosverlies.
+            </div>
+          `;
         } else {
-          story = `In ${countryName} verdwijnen enorme delen bos: ${lossFormatted} hectare ging verloren. Dit heeft grote gevolgen voor natuur en klimaat.`;
+          const lossFormatted = Math.round(loss).toLocaleString();
+          let story = "";
+
+          if (loss < 1000) {
+            story = `In ${countryName} blijft het bos grotendeels intact. Slechts ${lossFormatted} hectare aan bomen verdween dit jaar.`;
+          } else if (loss < 50000) {
+            story = `De bossen in ${countryName} krimpen gestaag — ${lossFormatted} hectare aan bomen verdween in het afgelopen jaar.`;
+          } else {
+            story = `In ${countryName} verdwijnen enorme delen bos: ${lossFormatted} hectare ging verloren. Dit heeft grote gevolgen voor natuur en klimaat.`;
+          }
+
+          popup.innerHTML = `
+            <button class="close-stam">×</button>
+            <div class="popup-content">
+              <strong>${countryName.toUpperCase()}</strong><br>
+              🌲 Verloren bosgebied: ${lossFormatted} hectare<br><br>
+              <em>${story}</em>
+            </div>
+          `;
         }
 
-        // Verhaal over de bosbouwindex
-       // Verhaal over de bosbouwindex
-        if (forestry < 90) {
-          forestryStory = `De bosbouwproductie is lager dan in voorgaande jaren (${forestryFormatted}). 
-          Een waarde onder 100 betekent dat er minder houtproductie plaatsvindt dan in 2014–2016, mogelijk door duurzaam beleid of bosherstel.`;
-        } else if (forestry < 110) {
-          forestryStory = `De bosbouwproductie is stabiel gebleven (${forestryFormatted}). 
-          Een waarde rond 100 duidt op een vergelijkbaar productieniveau als in 2014–2016.`;
-        } else {
-          forestryStory = `De bosbouwproductie is toegenomen (${forestryFormatted}). 
-          Een waarde boven 100 wijst op intensiever gebruik van bosgrond en een groei in houtproductie.`;
-        }
-
-
-        popup.innerHTML = `
-          <button class="close-stam">×</button>
-          <div class="popup-content">
-            <strong>${countryName.toUpperCase()}</strong><br>
-            🌲 Verloren bosgebied: ${lossFormatted} hectare<br>
-            🪵 Bosbouwproductie-index: ${forestryFormatted}<br><br>
-            <em>${story}</em><br><br>
-            <em>${forestryStory}</em>
-          </div>
-        `;
-
-        // positie & fade
-        popup.style.left = Math.min(e.pageX, window.innerWidth - 280) + "px";
-        popup.style.top = Math.min(e.pageY, window.innerHeight - 180) + "px";
+        // popup binnen scherm
+        const popupWidth = 280, popupHeight = 200;
+        const left = Math.min(e.pageX, window.innerWidth - popupWidth - 20);
+        const top  = Math.min(e.pageY, window.innerHeight - popupHeight - 20);
+        popup.style.left = `${left}px`;
+        popup.style.top = `${top}px`;
         popup.style.display = "block";
         popup.classList.add("show");
 
-        // popup blijft binnen scherm
-            const popupRect = popup.getBoundingClientRect();
-            const screenWidth = window.innerWidth;
-            const screenHeight = window.innerHeight;
-
-            let newLeft = e.pageX;
-            let newTop = e.pageY;
-
-            // popup blijft binnen scherm
-            if (popupRect.width + newLeft > screenWidth - 20) {
-            newLeft = screenWidth - popupRect.width - 20;
-            }
-
-            // popup blijft binnen scherm
-            if (popupRect.height + newTop > screenHeight - 20) {
-            newTop = screenHeight - popupRect.height - 20;
-            }
-
-            // past de positie aan
-            popup.style.left = `${newLeft}px`;
-            popup.style.top = `${newTop}px`;
-
-
-        // Sluitknop
-        const closeBtn = popup.querySelector(".close-stam");
-        closeBtn.addEventListener("click", () => {
+        popup.querySelector(".close-stam").addEventListener("click", () => {
           popup.classList.remove("show");
           setTimeout(() => (popup.style.display = "none"), 300);
         });

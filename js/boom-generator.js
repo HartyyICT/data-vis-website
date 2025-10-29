@@ -20,7 +20,7 @@ function spawnRandomTrees(count, position, countryName, countryData) {
     const halfH = h / 2;
     const GREEN_TOP_RATIO = 0.4;
     const GREEN_BOTTOM_RATIO = 0.3;
-    const zoneStart = w * 0.0;
+    const zoneStart = w * 0.01;
     const zoneEnd = w * 0.16;
     const zoneWidth = Math.max(0, zoneEnd - zoneStart - 48);
 
