@@ -106,6 +106,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
         spawnFish(fishCount1, "top", c1, data[key1]);
         spawnFish(fishCount2, "bottom", c2, data[key2]);
+
+        // Voeg planten toe op basis van forestry data
+        const forestry1 = data[key1]["Agriculture, forestry, and fishing, value added (% of GDP)"]["2021"];
+        const forestry2 = data[key2]["Agriculture, forestry, and fishing, value added (% of GDP)"]["2021"];
+
+        const plantCount1 = Math.min(30, Math.max(3, Math.round(forestry1 * 2)));
+        const plantCount2 = Math.min(30, Math.max(3, Math.round(forestry2 * 2)));
+
+        console.log(`${c1}: ${forestry1}% forestry → ${plantCount1} planten`);
+        console.log(`${c2}: ${forestry2}% forestry → ${plantCount2} planten`);
+
+        spawnPlants(plantCount1, "top", c1, data[key1]);
+        spawnPlants(plantCount2, "bottom", c2, data[key2]);
+
+
       })
       .catch((err) => console.error("Fout bij laden van JSON:", err));
 
