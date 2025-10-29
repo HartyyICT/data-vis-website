@@ -1,7 +1,7 @@
 .fish {
   position: absolute;
   z-index: 15;
-  width: 120px;
+  width: 50px;
   height: auto;
   cursor: pointer;
   transition: transform 0.3s ease, filter 0.3s ease;
@@ -10,6 +10,15 @@
 .fish:hover {
   transform: scale(1.15);
   filter: drop-shadow(0 0 8px #fff);
+}
+
+.fish.flipX:hover {
+  transform: scaleX(-1) scale(1.15);
+}
+
+
+.fish.flipX {
+  transform: scaleX(-1);
 }
 
 .fish-popup {

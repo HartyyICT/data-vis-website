@@ -21,11 +21,11 @@ function spawnFish(count, position, countryName, countryData) {
     }
 
     const halfH = h / 2;
-    const WATER_TOP_RATIO = 0.58;
-    const WATER_BOTTOM_RATIO = 0.8;
+    const WATER_TOP_RATIO = 0.7;
+    const WATER_BOTTOM_RATIO = 0.9;
 
     const zoneStart = w * 0.2;
-    const zoneEnd = w * 0.38;
+    const zoneEnd = w * 0.4;
     const zoneWidth = Math.max(0, zoneEnd - zoneStart - 48);
 
     const randX = () => zoneStart + Math.random() * zoneWidth;
@@ -60,7 +60,7 @@ function spawnFish(count, position, countryName, countryData) {
 
       // random richting (links of rechts)
       const flip = Math.random() < 0.5 ? -1 : 1;
-      fish.style.transform = `scaleX(${flip})`;
+      if (flip === -1) fish.classList.add("flipX");
 
       track.appendChild(fish);
 
@@ -102,10 +102,14 @@ function spawnFish(count, position, countryName, countryData) {
           newTop = window.innerHeight - popupRect.height - 20;
         }
 
-        popup.style.left = `${newLeft}px`;
-        popup.style.top = `${newTop}px`;
+        const popupWidth = 280, popupHeight = 200;
+        const left = Math.min(e.pageX, window.innerWidth - popupWidth - 20);
+        const top  = Math.min(e.pageY, window.innerHeight - popupHeight - 20);
+        popup.style.left = `${left}px`;
+        popup.style.top = `${top}px`;
         popup.style.display = "block";
         popup.classList.add("show");
+
 
         // sluitknop
         const closeBtn = popup.querySelector(".close-fish");

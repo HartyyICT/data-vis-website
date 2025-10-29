@@ -1,9 +1,10 @@
 .plant {
   position: absolute;
   z-index: 6;
-  width: 100px;
+  width: 50px;
   height: auto;
   cursor: pointer;
+  z-index: 999;
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 

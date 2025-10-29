@@ -21,10 +21,10 @@ function spawnPlants(count, position, countryName, countryData) {
     }
 
     const halfH = h / 2;
-    const GREEN_TOP_RATIO = 0.75;
+    const GREEN_TOP_RATIO = 0.8;
     const GREEN_BOTTOM_RATIO = 0.85;
-    const zoneStart = w * 0.18;
-    const zoneEnd = w * 0.23;
+    const zoneStart = w * 0.01;
+    const zoneEnd = w * 0.16;
     const zoneWidth = Math.max(0, zoneEnd - zoneStart - 48);
 
     const randX = () => zoneStart + Math.random() * zoneWidth;
@@ -88,6 +88,15 @@ function spawnPlants(count, position, countryName, countryData) {
         // popuppositie binnen het scherm houden
         popup.style.left = Math.min(e.pageX, window.innerWidth - 280) + "px";
         popup.style.top = Math.min(e.pageY, window.innerHeight - 180) + "px";
+        popup.style.display = "block";
+        popup.classList.add("show");
+
+        // popup binnen scherm
+        const popupWidth = 280, popupHeight = 200;
+        const left = Math.min(e.pageX, window.innerWidth - popupWidth - 20);
+        const top  = Math.min(e.pageY, window.innerHeight - popupHeight - 20);
+        popup.style.left = `${left}px`;
+        popup.style.top = `${top}px`;
         popup.style.display = "block";
         popup.classList.add("show");
 
