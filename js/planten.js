@@ -66,21 +66,21 @@ function spawnPlants(count, position, countryName, countryData) {
         let story = "";
 
         if (forestryValue < 2) {
-          story = `${countryName} heeft een zeer kleine bijdrage uit landbouw, bosbouw en visserij (${formattedValue}%). 
-          Dit wijst op een sterk geïndustrialiseerde of dienstgerichte economie.`;
+          story = `${countryName} kent een zeer beperkte bijdrage van de bosbouw aan de economie (${formattedValue}%). 
+          Dit kan betekenen dat het land sterk geïndustrialiseerd is of dat natuurlijke bossen voornamelijk beschermd worden in plaats van economisch benut.`;
         } else if (forestryValue < 10) {
-          story = `In ${countryName} speelt landbouw en bosbouw een bescheiden maar stabiele rol in de economie (${formattedValue}%). 
-          Er is vaak sprake van duurzaam beheer van natuurlijke hulpbronnen.`;
+          story = `In ${countryName} heeft de bosbouw een gematigde economische rol (${formattedValue}%). 
+          Er is vaak sprake van duurzaam bosbeheer, waarbij houtproductie wordt gecombineerd met natuurbehoud.`;
         } else {
-          story = `Landbouw, bosbouw en visserij vormen een groot deel van de economie van ${countryName} (${formattedValue}%). 
-          Dit duidt op een sterke afhankelijkheid van natuurlijke hulpbronnen.`;
+          story = `De bosbouw speelt een aanzienlijke rol in de economie van ${countryName} (${formattedValue}%). 
+          Hoewel dit economische kansen biedt, kan intensieve houtkap leiden tot ontbossing en verlies van biodiversiteit.`;
         }
 
         popup.innerHTML = `
           <button class="close-plant">×</button>
           <div class="popup-content">
             <strong>${countryName.toUpperCase()}</strong><br>
-            🌾 Landbouw, bosbouw & visserij: ${formattedValue}% van het BBP<br><br>
+            🌾 Bosbouw: ${formattedValue}% van het BBP<br><br>
             <em>${story}</em>
           </div>
         `;
