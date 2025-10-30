@@ -12,7 +12,7 @@
   filter: drop-shadow(0 0 8px white);
 }
 
-/* Popup */
+/*popup*/
 .stam-popup {
   position: fixed;
   background: rgba(0, 0, 0, 0.85);

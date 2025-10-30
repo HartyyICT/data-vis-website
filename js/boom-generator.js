@@ -1,6 +1,6 @@
 /**
- * Plaatst willekeurige bomen (boom.svg) op een land binnen het groene gebied
- * én binnen een horizontale zone.
+ * plaatst bomen op een land binnen het groene gebied
+ * en binnen een horizontale zone.
  * @param {number} count
  * @param {"top"|"bottom"} position 
  * @param {string} countryName 
@@ -102,17 +102,14 @@ function spawnRandomTrees(count, position, countryName, countryData) {
             let newLeft = e.pageX;
             let newTop = e.pageY;
 
-            // popup blijft binnen scherm
             if (popupRect.width + newLeft > screenWidth - 20) {
             newLeft = screenWidth - popupRect.width - 20;
             }
 
-            // popup blijft binnen scherm
             if (popupRect.height + newTop > screenHeight - 20) {
             newTop = screenHeight - popupRect.height - 20;
             }
 
-            // past de positie aan
             popup.style.left = `${newLeft}px`;
             popup.style.top = `${newTop}px`;
 

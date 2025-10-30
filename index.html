@@ -61,7 +61,6 @@
 
   <script>
 (() => {
-  // Label ↔ value zoals in jouw select
   const labelFromValue = {
     "nederland": "Nederland",
     "zweden": "Zweden",
@@ -71,7 +70,7 @@
     "brazilie": "Brazilië"
   };
 
-  // Officiële E, S, G (bron: EPI 2024, SPI 2025, WGI 2023)
+  // Officiële E, S, G (bron: excel bestand door opdrachtgever)
   const ESG = {
     "nederland":  { E: 66.9,  S: 88.97, G: 95.75 },
     "zweden":     { E: 70.3,  S: 89.42, G: 94.81 },
@@ -81,7 +80,6 @@
     "brazilie":   { E: 53.0,  S: 71.26, G: 32.08 }
   };
 
-  // samengesteld (0–100) + kleur van groen→rood
   function composite({E,S,G}) { return (E + S + G) / 3; }
   function scoreToColor(score) {
     const r = Math.round(255 * (100 - score) / 100);
@@ -89,7 +87,6 @@
     return `rgb(${r},${g},0)`;
   }
 
-  // Sorteer op ESG desc
   const sorted = Object.entries(ESG)
     .map(([value, parts]) => {
       const esg = composite(parts);
@@ -97,7 +94,6 @@
     })
     .sort((a,b) => b.esg - a.esg);
 
-  // Vervang opties in een select
   function rebuildSelect(selectEl) {
     const keep = selectEl.value || "";
     const placeholder = selectEl.querySelector('option[value=""]')?.outerHTML
@@ -118,7 +114,6 @@
     }
   }
 
-  // Pas beide dropdowns aan
   const s1 = document.getElementById('country1');
   const s2 = document.getElementById('country2');
   if (s1) rebuildSelect(s1);

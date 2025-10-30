@@ -1,7 +1,7 @@
 /**
- * Plaatst vissen (vis.svg) in het blauwe gedeelte van elk land
- * gebaseerd op 'Fishing production index (2014-2016 = 100)' data.
- * @param {number} count - aantal vissen
+ * plaatst vissen in het blauwe gedeelte van elk land
+ * 
+ * @param {number} count 
  * @param {"top"|"bottom"} position
  * @param {string} countryName
  * @param {object} countryData
@@ -50,7 +50,7 @@ function spawnFish(count, position, countryName, countryData) {
       document.body.appendChild(popup);
     }
 
-    // 🐟 vissen genereren
+    // vissen genereren
     for (let i = 0; i < count; i++) {
       const fish = document.createElement("img");
       fish.src = "/img/vis.svg";
@@ -58,7 +58,7 @@ function spawnFish(count, position, countryName, countryData) {
       fish.style.left = `${randX()}px`;
       fish.style.top = `${randY()}px`;
 
-      // random richting (links of rechts)
+      // random richting links of rechts
       const flip = Math.random() < 0.5 ? -1 : 1;
       if (flip === -1) fish.classList.add("flipX");
 

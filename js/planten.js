@@ -1,7 +1,7 @@
 /**
- * Plaatst planten (planten.svg) op een land binnen het groene gebied
- * gebaseerd op de waarde van "Agriculture, forestry, and fishing, value added (% of GDP)".
- * @param {number} count - aantal planten
+ * Plaatst kiemplantjes op een land binnen het groene gebied
+ * 
+ * @param {number} count 
  * @param {"top"|"bottom"} position
  * @param {string} countryName
  * @param {object} countryData
@@ -40,7 +40,7 @@ function spawnPlants(count, position, countryName, countryData) {
       return yMin + Math.random() * (yMax - yMin);
     };
 
-    // Popup aanmaken
+    // popup
     let popup = document.getElementById("plant-popup");
     if (!popup) {
       popup = document.createElement("div");
@@ -49,7 +49,7 @@ function spawnPlants(count, position, countryName, countryData) {
       document.body.appendChild(popup);
     }
 
-    // 🌿 Planten genereren
+    // planten genereren
     for (let i = 0; i < count; i++) {
       const plant = document.createElement("img");
       plant.src = "/img/planten.svg";
@@ -58,7 +58,7 @@ function spawnPlants(count, position, countryName, countryData) {
       plant.style.top = `${randY()}px`;
       track.appendChild(plant);
 
-      // Klik → popup
+      // popup
       plant.addEventListener("click", (e) => {
         const forestryValue =
           countryData["Agriculture, forestry, and fishing, value added (% of GDP)"]["2021"];
@@ -85,13 +85,13 @@ function spawnPlants(count, position, countryName, countryData) {
           </div>
         `;
 
-        // popuppositie binnen het scherm houden
+        // popup binnen scherm
         popup.style.left = Math.min(e.pageX, window.innerWidth - 280) + "px";
         popup.style.top = Math.min(e.pageY, window.innerHeight - 180) + "px";
         popup.style.display = "block";
         popup.classList.add("show");
 
-        // popup binnen scherm
+        
         const popupWidth = 280, popupHeight = 200;
         const left = Math.min(e.pageX, window.innerWidth - popupWidth - 20);
         const top  = Math.min(e.pageY, window.innerHeight - popupHeight - 20);

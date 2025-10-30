@@ -1,13 +1,13 @@
 /**
- * Plaatst boomstammen (boomstam.svg) op een land binnen het groene gebied
- * gebaseerd op 'Tree cover loss' data.
+ * plaatst boomstammen op een land binnen het groene gebied
+ * gebaseerd op tree cover loss data.
  * @param {number} count - aantal stammen
  * @param {"top"|"bottom"} position
  * @param {string} countryName
  * @param {object} countryData
  */
 
-// Helper: pak de meest recente waarde uit de data
+// pak de meest recente waarde uit de data
 function getLatestValue(countryData, indicator, preferredYears = ["2023","2022","2021","2020","2019","2018"]) {
   const series = countryData?.[indicator];
   if (!series || typeof series !== "object") return null;
@@ -57,7 +57,6 @@ function spawnTreeStumps(count, position, countryName, countryData) {
       return yMin + Math.random() * (yMax - yMin);
     };
 
-    // Maak popup indien nodig
     let popup = document.getElementById("stam-popup");
     if (!popup) {
       popup = document.createElement("div");
@@ -66,7 +65,7 @@ function spawnTreeStumps(count, position, countryName, countryData) {
       document.body.appendChild(popup);
     }
 
-    // 🌲 Stammen genereren
+    // stammen genereren
     for (let i = 0; i < count; i++) {
       const stump = document.createElement("img");
       stump.src = "/img/boomstam.svg";
@@ -75,7 +74,7 @@ function spawnTreeStumps(count, position, countryName, countryData) {
       stump.style.top = `${randY()}px`;
       track.appendChild(stump);
 
-      // 📊 Popup met data
+      // popup met data
       stump.addEventListener("click", (e) => {
         const loss = getLatestValue(countryData, "Tree cover loss (ha)");
 

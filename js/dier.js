@@ -1,10 +1,10 @@
 /**
- * Plaatst willekeurige dieren (bijv. herten.svg) op beide landen,
- * binnen een bepaald gebied, vergelijkbaar met de bomen.
- * @param {number} count - aantal dieren per land
- * @param {"top"|"bottom"} position - of het bovenste of onderste land is
- * @param {string} countryName - landnaam
- * @param {object} countryData - data-object uit JSON
+ * plaatst willekeurige herten op beide landen,
+ * 
+ * @param {number} count
+ * @param {"top"|"bottom"} position 
+ * @param {string} countryName 
+ * @param {object} countryData 
  */
 function spawnAnimals(count, position, countryName, countryData) {
   const track = document.getElementById("compare-track");
@@ -106,20 +106,16 @@ function spawnAnimals(count, position, countryName, countryData) {
             let newLeft = e.pageX;
             let newTop = e.pageY;
 
-            // popup blijft binnen scherm
             if (popupRect.width + newLeft > screenWidth - 20) {
             newLeft = screenWidth - popupRect.width - 20;
             }
 
-            // popup blijft binnen scherm
             if (popupRect.height + newTop > screenHeight - 20) {
             newTop = screenHeight - popupRect.height - 20;
             }
 
-            // past de positie aan
             popup.style.left = `${newLeft}px`;
             popup.style.top = `${newTop}px`;
-
 
         const closeBtn = popup.querySelector(".close-animal");
         closeBtn.addEventListener("click", () => {

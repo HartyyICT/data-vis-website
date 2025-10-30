@@ -47,15 +47,15 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(`${c1}: ${forest1}% bosgebied → ${count1} bomen`);
         console.log(`${c2}: ${forest2}% bosgebied → ${count2} bomen`);
 
-        // 🦌 Bedreigde diersoorten → hertenaantal bepalen
+        // bedreigde diersoorten hertenaantal bepalen
         const threatened1 = parseFloat(data[key1]["Mammal species, threatened"]["2018"]);
         const threatened2 = parseFloat(data[key2]["Mammal species, threatened"]["2018"]);
 
-        // Hoe meer bedreigde soorten, hoe minder dieren (1–10 schaal)
+        // hoe meer bedreigde soorten, hoe minder dieren met 1–10 schaal
         const maxAnimals = 10;
         const minAnimals = 1;
-        const maxThreatened = 100; // landen met ~100 bedreigde soorten krijgen het minimum
-        const minThreatened = 5;   // landen met ~5 bedreigde soorten krijgen het maximum
+        const maxThreatened = 100; 
+        const minThreatened = 5;   
 
         const mapThreatToAnimals = (threatened) => {
           const normalized = Math.max(0, Math.min(1, (maxThreatened - threatened) / (maxThreatened - minThreatened)));
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(`${c1}: ${threatened1} bedreigde soorten → ${deerCount1} herten`);
         console.log(`${c2}: ${threatened2} bedreigde soorten → ${deerCount2} herten`);
 
-        // 🌲 Tree cover loss data verwerken
+        // tree cover loss data verwerken
         const loss1 = parseFloat(data[key1]["Tree cover loss (ha)"]["2021"]);
         const loss2 = parseFloat(data[key2]["Tree cover loss (ha)"]["2021"]);
 
@@ -78,19 +78,19 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(`${c1}: ${loss1} verlies → ${stumpCount1} stammen`);
         console.log(`${c2}: ${loss2} verlies → ${stumpCount2} stammen`);
 
-        // 🐿️ Genereer dieren per land
+        // genereer dieren per land
         spawnAnimals(deerCount1, "top", c1, data[key1]);
         spawnAnimals(deerCount2, "bottom", c2, data[key2]);
 
-        // 🌳 Genereer bomen per land
+        // genereer bomen per land
         spawnRandomTrees(count1, "top", c1, data[key1]);
         spawnRandomTrees(count2, "bottom", c2, data[key2]);
 
-        // 🪵 Genereer stammen per land
+        // genereer stammen per land
         spawnTreeStumps(stumpCount1, "top", c1, data[key1]);
         spawnTreeStumps(stumpCount2, "bottom", c2, data[key2]);
 
-        // 🎣 Fishing production index → aantal vissen bepalen
+        // fishing production index → aantal vissen bepalen
         const fishing1 = data[key1]["Fishing production index (2014-2016 = 100)"]
           ? parseFloat(data[key1]["Fishing production index (2014-2016 = 100)"]["2021"])
           : 0;
@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
         spawnFish(fishCount1, "top", c1, data[key1]);
         spawnFish(fishCount2, "bottom", c2, data[key2]);
 
-        // Voeg planten toe op basis van forestry data
+        // voeg planten toe op basis van forestry data
         const forestry1 = data[key1]["Agriculture, forestry, and fishing, value added (% of GDP)"]["2021"];
         const forestry2 = data[key2]["Agriculture, forestry, and fishing, value added (% of GDP)"]["2021"];
 
